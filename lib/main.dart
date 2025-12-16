@@ -40,8 +40,27 @@ class MyHomePage extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              Text("Currency"),
-              Text("Exchange"),
+              Text("Currency"
+              , style: TextStyle(
+                  fontSize: 32,
+                  color: AppColors.textColor,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              Text("Exchange"
+                , style: TextStyle(
+                  fontSize: 32,
+                  color: AppColors.accentColor,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              Text("Real-time conversion rates"
+                , style: TextStyle(
+                  fontSize: 8,
+                  color: AppColors.subtleTextColor,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
               BaseCurrencyWidget(),
             ],
           ),
