@@ -32,9 +32,9 @@ class MyHomePage extends StatelessWidget {
       body: Container(
         decoration: BoxDecoration(
           gradient:  LinearGradient(colors: [
-            AppColors.gradientEnd,
             AppColors.gradientStart,
-          ]),
+            AppColors.gradientEnd,
+          ],begin: Alignment.topCenter,end: Alignment.bottomCenter),
         ),
         child: SafeArea(
           child: Column(
@@ -60,6 +60,17 @@ class MyHomePage extends StatelessWidget {
                   color: AppColors.subtleTextColor,
                   fontWeight: FontWeight.bold,
                 ),
+              ),
+              BaseCurrencyWidget(),
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(50)),
+                  color: AppColors.accentColor
+                ),
+                child: SvgPicture.asset("assets/ic_swap.svg",
+                    colorFilter:ColorFilter.mode(AppColors.cardBackgroundColor, BlendMode.srcIn) ,
+                    width: 40,
+                    height: 40),
               ),
               BaseCurrencyWidget(),
             ],
@@ -118,63 +129,69 @@ class _CountriesDropdownWidgetState extends State<CountriesDropdownWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return DropdownButton<Country>(
-      value: _selectedCountry,
-      isExpanded: true,
-      itemHeight: null,
-      borderRadius: const BorderRadius.all(Radius.circular(10)),
-      items: countries.map((Country country) {
-        return DropdownMenuItem<Country>(
-          value: country,
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              children: <Widget>[
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(10.0),
-                  child: SvgPicture.asset(
-                      country.flag,
-                      width: 40,
-                      height: 40),
-                ),
-                const SizedBox(width: 16),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        country.abbreviation,
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: AppColors.textColor,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      const SizedBox(height: 2),
-                      Text(
-                        country.name,
-                        style: TextStyle(
-                          fontSize: 16,
-                          overflow: TextOverflow.ellipsis,
-                          color: AppColors.subtleTextColor,
-                        ),
-                        maxLines: 1,
-                      ),
-                    ],
+    return Container(
+      decoration: BoxDecoration(
+        border: Border.all(color: AppColors.spinnerBorderColor, width: .5,),
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: DropdownButton<Country>(
+        value: _selectedCountry,
+        isExpanded: true,
+        itemHeight: null,
+        underline: Container(),
+        items: countries.map((Country country) {
+          return DropdownMenuItem<Country>(
+            value: country,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                children: <Widget>[
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(10.0),
+                    child: SvgPicture.asset(
+                        country.flag,
+                        width: 40,
+                        height: 40),
                   ),
-                ),
-              ],
+                  const SizedBox(width: 16),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          country.abbreviation,
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: AppColors.textColor,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(height: 2),
+                        Text(
+                          country.name,
+                          style: TextStyle(
+                            fontSize: 16,
+                            overflow: TextOverflow.ellipsis,
+                            color: AppColors.subtleTextColor,
+                          ),
+                          maxLines: 1,
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ),
-        );
-      }).toList(),
-      onChanged: (Country? newValue) {
-        if (newValue != null) {
-          setState(() {
-            _selectedCountry = newValue;
-          });
-        }
-      },
+          );
+        }).toList(),
+        onChanged: (Country? newValue) {
+          if (newValue != null) {
+            setState(() {
+              _selectedCountry = newValue;
+            });
+          }
+        },
+      ),
     );
   }
 }
