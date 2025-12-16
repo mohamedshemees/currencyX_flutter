@@ -5,7 +5,7 @@ class AppColors {
   AppColors._();
 
   static const Color gradientStart = Color(0xFFF8F9FA);
-  static const Color gradientEnd = Color(0xFF684135);
+  static const Color gradientEnd = Color(0xFFFEFBEA);
   static const Color backgroundColor = Color(0xFFFBFDFF);
   static const Color cardBackgroundColor = Color(0xFFFFFFFF);
   static const Color spinnerBorderColor = Color(0xFFE2E8F0);
