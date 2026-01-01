@@ -1,7 +1,7 @@
-import 'package:currencyx/app_colors.dart';
 import 'package:currencyx/models/country.dart';
+import 'package:currencyx/theme/app_colors.dart';
+import 'package:currencyx/theme/custom_colors_extension.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 class CountriesDropdownWidget extends StatefulWidget {
   const CountriesDropdownWidget({super.key});
@@ -24,14 +24,14 @@ class _CountriesDropdownWidgetState extends State<CountriesDropdownWidget> {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        border: Border.all(color: AppColors.spinnerBorderColor, width: .5,),
+        color: Theme.of(context).customColors.cardBackgroundColor,
+        border: Border.all(color: AppColors.spinnerBorderColor, width: .5),
         borderRadius: BorderRadius.circular(10),
       ),
       child: DropdownButton<Country>(
         value: _selectedCountry,
         isExpanded: true,
         itemHeight: null,
-        underline: Container(),
         items: countries.map((Country country) {
           return DropdownMenuItem<Country>(
             value: country,
@@ -41,10 +41,12 @@ class _CountriesDropdownWidgetState extends State<CountriesDropdownWidget> {
                 children: <Widget>[
                   ClipRRect(
                     borderRadius: BorderRadius.circular(10.0),
-                    child: SvgPicture.asset(
-                        country.flag,
-                        width: 40,
-                        height: 40),
+                    child: Image.asset(
+                      country.flag,
+                      fit: BoxFit.cover,
+                      width: 40,
+                      height: 40,
+                    ),
                   ),
                   const SizedBox(width: 16),
                   Expanded(

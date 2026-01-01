@@ -1,4 +1,5 @@
-import 'package:currencyx/app_colors.dart';
+import 'package:currencyx/theme/app_colors.dart';
+import 'package:currencyx/theme/custom_colors_extension.dart';
 import 'package:currencyx/widgets/countries_dropdown_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -11,7 +12,7 @@ class BaseCurrencyWidget extends StatelessWidget {
       padding: const EdgeInsets.all(16.0),
       child: Container(
         decoration: BoxDecoration( 
-          color: AppColors.cardBackgroundColor,
+          color: Theme.of(context).customColors.cardBackgroundColor,
         borderRadius: BorderRadius.all(Radius.circular(24))
         ),
         child: Padding(
@@ -22,7 +23,12 @@ class BaseCurrencyWidget extends StatelessWidget {
                 Text("From"),
                 Expanded(child: CountriesDropdownWidget()),
               ]),
-              TextField(),
+              TextField(
+                decoration: InputDecoration(
+                  hintText: "Enter amount",
+                ),
+
+              ),
             ],
           ),
         ),
