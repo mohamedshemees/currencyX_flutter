@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 class CustomColorsExtension {
   final Color textColor;
+  final Color iconColor;
   final Color gradientStart;
   final Color gradientEnd;
   final Color cardBackgroundColor;
@@ -10,6 +11,7 @@ class CustomColorsExtension {
 
   CustomColorsExtension._({
     required this.textColor,
+    required this.iconColor,
     required this.gradientStart,
     required this.gradientEnd,
     required this.cardBackgroundColor,
@@ -18,6 +20,7 @@ class CustomColorsExtension {
   factory CustomColorsExtension._light() {
     return CustomColorsExtension._(
       textColor: AppColors.textColor,
+      iconColor: AppColors.iconColor,
       gradientStart: AppColors.gradientStart,
       gradientEnd: AppColors.gradientEnd,
       cardBackgroundColor: AppColors.cardBackgroundColor,
@@ -27,6 +30,7 @@ class CustomColorsExtension {
   factory CustomColorsExtension._dark() {
     return CustomColorsExtension._(
         textColor: AppColors.darkTextColor,
+        iconColor: AppColors.darkIconColor,
         gradientStart: AppColors.darkGradientStart,
         gradientEnd: AppColors.darkGradientEnd,
         cardBackgroundColor: AppColors.darkCardBackgroundColor,
