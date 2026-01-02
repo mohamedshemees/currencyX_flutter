@@ -2,6 +2,7 @@ import 'package:currencyx/domain/CurrencyRepository.dart';
 import 'package:currencyx/main.dart';
 import 'package:currencyx/screens/home_screen_cubit.dart';
 import 'package:currencyx/theme/app_colors.dart';
+import 'package:currencyx/theme/cubit/theme_cubit.dart';
 import 'package:currencyx/theme/custom_colors_extension.dart';
 import 'package:currencyx/widgets/conversion_view_widget.dart';
 import 'package:currencyx/widgets/exchange_rate_widget.dart';
@@ -49,7 +50,9 @@ class MyHomePage extends StatelessWidget {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              const HeaderWidget(),
+                              HeaderWidget(
+                                theme: context.read<ThemeCubit>().state,
+                              ),
                               const ConversionViewWidget(),
                               ExchangeRateWidget(
                                 onSelectDate: (selectedDate) {

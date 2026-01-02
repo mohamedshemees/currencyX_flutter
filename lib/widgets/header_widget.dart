@@ -7,7 +7,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class HeaderWidget extends StatelessWidget {
-  const HeaderWidget({super.key});
+  final ThemeState theme;
+
+  const HeaderWidget({super.key, required this.theme});
 
   @override
   Widget build(BuildContext context) {
@@ -16,10 +18,7 @@ class HeaderWidget extends StatelessWidget {
       children: [
         Column(
           children: [
-            Text(
-              "Currency",
-              style: AppTextStyle.heading1,
-            ),
+            Text("Currency", style: AppTextStyle.heading1),
             Text(
               "Exchange",
               style: AppTextStyle.heading1.copyWith(
@@ -40,34 +39,29 @@ class HeaderWidget extends StatelessWidget {
           alignment: Alignment.topRight,
           child: GestureDetector(
             onTap: () {
-              if (Theme.of(context).brightness == Brightness.dark) {
-                context.read<ThemeCubit>().updateTheme(
-                      ThemeMode.light,
-                    );
+              if (theme is ThemeDark) {
+                context.read<ThemeCubit>().setTheme("LIGHT");
               } else {
-                context.read<ThemeCubit>().updateTheme(
-                      ThemeMode.dark,
-                    );
+                context.read<ThemeCubit>().setTheme("DARK");
               }
             },
             child: Container(
-              margin: const EdgeInsetsDirectional.only(
-                end: 8.0,
-                top: 8.0,
-              ),
+              margin: const EdgeInsetsDirectional.only(end: 8.0, top: 8.0),
               padding: const EdgeInsetsDirectional.all(8),
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: Theme.of(context)
-                    .extension<CustomColorsExtension>()!
-                    .cardBackgroundColor,
+                color: Theme.of(
+                  context,
+                ).extension<CustomColorsExtension>()!.cardBackgroundColor,
               ),
               child: SvgPicture.asset(
                 Theme.of(context).extension<CustomColorsExtension>()!.themeIcon,
                 width: 40,
                 height: 40,
                 colorFilter: ColorFilter.mode(
-                  Theme.of(context).extension<CustomColorsExtension>()!.iconColor,
+                  Theme.of(
+                    context,
+                  ).extension<CustomColorsExtension>()!.iconColor,
                   BlendMode.srcIn,
                 ),
               ),

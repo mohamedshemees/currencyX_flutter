@@ -1,12 +1,15 @@
 import 'package:currencyx/app.dart';
+import 'package:currencyx/data/AppThemeRepositoryImpl.dart';
 import 'package:currencyx/data/CurrencyRepositoryImpl.dart';
 import 'package:currencyx/domain/ApiService.dart';
+import 'package:currencyx/domain/AppThemeRepository.dart';
 import 'package:currencyx/domain/CurrencyRepository.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get_it/get_it.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 final getIt = GetIt.instance;
 
@@ -51,7 +54,11 @@ void configureDependencies() {
     return dio;
   });
   getIt.registerSingleton<ApiService>(ApiService(getIt<Dio>()));
+  getIt.registerSingleton<SharedPreferencesAsync>(SharedPreferencesAsync());
   getIt.registerLazySingleton<CurrencyRepository>(
     () => CurrencyRepositoryImpl(apiService: getIt<ApiService>()),
+  );
+  getIt.registerLazySingleton<AppThemeRepository>(
+    () => AppThemeRepositoryImpl(sharedPreferencesAsync: getIt<SharedPreferencesAsync>()),
   );
 }

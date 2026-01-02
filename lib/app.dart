@@ -1,3 +1,5 @@
+import 'package:currencyx/domain/AppThemeRepository.dart';
+import 'package:currencyx/main.dart';
 import 'package:currencyx/screens/my_home_page.dart';
 import 'package:currencyx/theme/cubit/theme_cubit.dart';
 import 'package:currencyx/theme/theme_data_dark.dart';
@@ -12,7 +14,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (_) => ThemeCubit()),
+        BlocProvider(create: (_) => ThemeCubit(
+          getIt<AppThemeRepository>()
+        )),
       ],
       child: BlocBuilder<ThemeCubit, ThemeState>(
         builder: (context, state) {
