@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:currencyx/domain/CurrencyRepository.dart';
-import 'package:meta/meta.dart';
-
+import 'package:flutter/cupertino.dart';
+import 'package:intl/intl.dart';
 part 'home_screen_state.dart';
 
 class HomeScreenCubit extends Cubit<HomeScreenState> {
@@ -19,7 +19,8 @@ class HomeScreenCubit extends Cubit<HomeScreenState> {
           result: '',
         ),
       ) {
-    //getCurrencies("USD");
+    getCurrencies();
+    calculateResult();
   }
 
   Future<void> getCurrencies() async {
@@ -29,8 +30,8 @@ class HomeScreenCubit extends Cubit<HomeScreenState> {
         state.baseCurrency,
         "",
       );
-
       emit(state.copyWith(rates: data.data, isLoading: false));
+      calculateResult();
     } catch (e) {
       print('LOG:' + e.toString());
     }
@@ -43,10 +44,13 @@ class HomeScreenCubit extends Cubit<HomeScreenState> {
 
   void onChangeTargetCurrency(String targetCurrency) {
     emit(state.copyWith(targetCurrency: targetCurrency));
+    calculateResult();
   }
 
-  void onChangeAmount(double amount) {
-    emit(state.copyWith(amount: amount));
+  void onChangeAmount(String amount) {
+    double doubleAmount = double.parse(amount);
+    emit(state.copyWith(amount: doubleAmount));
+    calculateResult();
   }
 
   void onCLickSwap() {
@@ -58,5 +62,16 @@ class HomeScreenCubit extends Cubit<HomeScreenState> {
       ),
     );
     getCurrencies();
+  }
+
+  void calculateResult() {
+    var result = state.amount * state.rates.values.last[state.targetCurrency]!;
+    emit(state.copyWith(result: result.roundToDouble().toString()));
+  }
+}
+extension DateFormatting on String {
+  String formatted() {
+    final parsedDate = DateTime.parse(this);
+    return DateFormat('MMM d, yyyy').format(parsedDate.toLocal());
   }
 }

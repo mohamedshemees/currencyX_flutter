@@ -119,6 +119,10 @@ class MyHomePage extends StatelessWidget {
                                 .read<HomeScreenCubit>()
                                 .onChangeBaseCurrency(baseCurrency);
                           },
+                          result: '',
+                          onChangeValue: (String p1) {
+                            context.read<HomeScreenCubit>().onChangeAmount(p1);
+                          },
                         ),
                         Container(
                           padding: EdgeInsets.all(12),
@@ -135,7 +139,7 @@ class MyHomePage extends StatelessWidget {
                           ),
                           child: GestureDetector(
                             onTap: () {
-                             context.read<HomeScreenCubit>().onCLickSwap();
+                              context.read<HomeScreenCubit>().onCLickSwap();
                             },
                             child: SvgPicture.asset(
                               "assets/ic_swap.svg",
@@ -158,6 +162,8 @@ class MyHomePage extends StatelessWidget {
                                 .read<HomeScreenCubit>()
                                 .onChangeTargetCurrency(targetCurrency);
                           },
+                          onChangeValue: (String amount) {},
+                          result: state.result,
                         ),
                       ],
                     ),

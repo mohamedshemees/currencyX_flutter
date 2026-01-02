@@ -41,7 +41,7 @@ class _ApiService implements ApiService {
   @override
   Future<Response> getCurrencyExchangeRate({
     String baseCurrency = "USD",
-    String date = "",
+    String date = "2025-01-01",
   }) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{

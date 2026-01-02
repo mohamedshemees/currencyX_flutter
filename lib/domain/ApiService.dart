@@ -10,8 +10,8 @@ abstract class ApiService {
 
 @GET('historical')
 Future<Response> getCurrencyExchangeRate({
-  @Query("base_currency") String baseCurrency = "USD",
-  @Query("date") String date = "",
+  @Query("base_currency") String baseCurrency,
+  @Query("date") String date = "2025-01-01",
 });
 }
 @JsonSerializable()
