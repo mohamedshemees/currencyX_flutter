@@ -40,69 +40,71 @@ class MyHomePage extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Row(
+                        Stack(
+                          alignment: Alignment.topCenter,
                           children: [
-                            Expanded(
-                              child: Column(
-                                children: [
-                                  Text(
-                                    "Currency",
-                                    style: AppTextStyle.heading1,
+                            Column(
+                              children: [
+                                Text(
+                                  "Currency",
+                                  style: AppTextStyle.heading1,
+                                ),
+                                Text(
+                                  "Exchange",
+                                  style: AppTextStyle.heading1.copyWith(
+                                    color: AppColors.accentColor,
                                   ),
-                                  Text(
-                                    "Exchange",
-                                    style: AppTextStyle.heading1.copyWith(
-                                      color: AppColors.accentColor,
-                                    ),
+                                ),
+                                Text(
+                                  "Real-time conversion rates",
+                                  style: TextStyle(
+                                    fontSize: 8,
+                                    color: AppColors.subtleTextColor,
+                                    fontWeight: FontWeight.bold,
                                   ),
-                                  Text(
-                                    "Real-time conversion rates",
-                                    style: TextStyle(
-                                      fontSize: 8,
-                                      color: AppColors.subtleTextColor,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ],
-                              ),
+                                ),
+                              ],
                             ),
-                            GestureDetector(
-                              onTap: () {
-                                if (Theme.of(context).brightness ==
-                                    Brightness.dark) {
-                                  context.read<ThemeCubit>().updateTheme(
-                                    ThemeMode.light,
-                                  );
-                                } else {
-                                  context.read<ThemeCubit>().updateTheme(
-                                    ThemeMode.dark,
-                                  );
-                                }
-                              },
-                              child: Container(
-                                margin: const EdgeInsetsDirectional.only(
-                                  end: 8.0,
-                                  top: 8.0,
-                                ),
-                                padding: const EdgeInsetsDirectional.all(8),
+                            Align(
+                              alignment: Alignment.topRight,
+                              child: GestureDetector(
+                                onTap: () {
+                                  if (Theme.of(context).brightness ==
+                                      Brightness.dark) {
+                                    context.read<ThemeCubit>().updateTheme(
+                                      ThemeMode.light,
+                                    );
+                                  } else {
+                                    context.read<ThemeCubit>().updateTheme(
+                                      ThemeMode.dark,
+                                    );
+                                  }
+                                },
+                                child: Container(
+                                  margin: const EdgeInsetsDirectional.only(
+                                    end: 8.0,
+                                    top: 8.0,
+                                  ),
+                                  padding: const EdgeInsetsDirectional.all(8),
 
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: Theme.of(context)
-                                      .extension<CustomColorsExtension>()!
-                                      .cardBackgroundColor,
-                                ),
-                                child: SvgPicture.asset(
-                                  Theme.of(context)
-                                      .extension<CustomColorsExtension>()!
-                                      .themeIcon,
-                                  width: 40,
-                                  height: 40,
-                                  colorFilter: ColorFilter.mode(
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: Theme.of(context)
+                                        .extension<CustomColorsExtension>()!
+                                        .cardBackgroundColor,
+                                  ),
+                                  child: SvgPicture.asset(
                                     Theme.of(context)
                                         .extension<CustomColorsExtension>()!
-                                        .iconColor,
-                                    BlendMode.srcIn,
+                                        .themeIcon,
+                                    width: 40,
+                                    height: 40,
+                                    colorFilter: ColorFilter.mode(
+                                      Theme.of(context)
+                                          .extension<CustomColorsExtension>()!
+                                          .iconColor,
+                                      BlendMode.srcIn,
+                                    ),
                                   ),
                                 ),
                               ),
