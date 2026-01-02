@@ -41,17 +41,22 @@ class CurrencyCardWidget extends StatelessWidget {
           child: Column(
             children: [
               Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    title,
-                    style: TextStyle(
-                      fontFamily: AppFonts.roboto,
-                      fontSize: 28,
-                      fontWeight: FontWeight.bold,
-                      color: AppColors.subtleTextColor,
+                  Flexible(
+                    flex: 1,
+                    child: Text(
+                      title,
+                      style: TextStyle(
+                        fontFamily: AppFonts.roboto,
+                        fontSize: 28,
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.subtleTextColor,
+                      ),
                     ),
                   ),
                   Expanded(
+                    flex: 2,
                     child: CountriesDropdownWidget(
                       currentCurrency: currentCurrency,
                       onPressed: onPressed,
@@ -75,7 +80,7 @@ class CurrencyCardWidget extends StatelessWidget {
                     )
                   : SizedBox(
                   height: MediaQuery.of(context).size.height *.1 ,
-                  child: AnimatedText(title:"RESULT $result",))
+                  child: AnimatedText(title:"${currentCurrency.substring(0,2)} $result",))
             ],
           ),
         ),

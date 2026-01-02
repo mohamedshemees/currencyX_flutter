@@ -9,25 +9,27 @@ class HomeScreenCubit extends Cubit<HomeScreenState> {
   final CurrencyRepository _currencyRepository;
 
   HomeScreenCubit(this._currencyRepository)
-    : super(
-        HomeScreenState(
-          baseCurrency: "USD",
-          targetCurrency: "EUR",
-          amount: 1.0,
-          rates: const {},
-          isLoading: false,
-          errorMessage: "",
-          result: '',
-          date: '',
-          ratio: '',
-        ),
-      ) {
+      : super(
+          HomeScreenState(
+            baseCurrency: "USD",
+            targetCurrency: "EUR",
+            amount: 1.0,
+            rates: const {},
+            isLoading: true,
+            errorMessage: "",
+            result: '',
+            date: DateTime.now()
+                .subtract(const Duration(days:2))
+                .toString()
+                .formatted(),
+            ratio: '',
+          ),
+        ) {
     getCurrencies();
   }
 
   Future<void> getCurrencies() async {
     try {
-      emit(state.copyWith(isLoading: true));
       final data = await _currencyRepository.getCurrencyExchangeRate(
         state.baseCurrency,
         state.date,

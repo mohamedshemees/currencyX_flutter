@@ -16,6 +16,7 @@ class MyHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       extendBodyBehindAppBar: true,
       body: SafeArea(
         child: BlocProvider(
@@ -56,39 +57,62 @@ class MyHomePage extends StatelessWidget {
                               const ConversionViewWidget(),
                               ExchangeRateWidget(
                                 onSelectDate: (selectedDate) {
-                                  context
-                                      .read<HomeScreenCubit>()
-                                      .onSelectDate(selectedDate);
+                                  context.read<HomeScreenCubit>().onSelectDate(
+                                    selectedDate,
+                                  );
                                 },
                                 firstDate: DateTime(2020),
-                                lastDate: DateTime.now(),
+                                lastDate: DateTime.now().subtract(Duration(days:2)),
                                 ratio: state.ratio,
+                              ),
+                              Text(
+                                state.date.formatted(),
+                                style: TextStyle(
+                                  color: Theme.of(context)
+                                      .extension<CustomColorsExtension>()!
+                                      .subTextColor,
+                                  fontSize: 16,
+                                ),
                               ),
                             ],
                           ),
                         ),
-                        Container(decoration: BoxDecoration(
+                        Container(
+                          decoration: BoxDecoration(
                             boxShadow: [
                               BoxShadow(
-                                color: AppColors.accentColor.withValues(alpha: .05),
+                                color: AppColors.accentColor.withValues(
+                                  alpha: .05,
+                                ),
                                 blurRadius: 100,
                                 spreadRadius: 100,
                                 offset: Offset(constraints.maxWidth, 70),
                               ),
                               BoxShadow(
-                                color: AppColors.accentColor.withValues(alpha: .05),
+                                color: AppColors.accentColor.withValues(
+                                  alpha: .05,
+                                ),
                                 blurRadius: 100,
                                 spreadRadius: 100,
-                                offset: Offset(-constraints.maxWidth,constraints.maxHeight),
+                                offset: Offset(
+                                  -constraints.maxWidth,
+                                  constraints.maxHeight,
+                                ),
                               ),
                               BoxShadow(
-                                color: AppColors.accentColor.withValues(alpha: .05),
+                                color: AppColors.accentColor.withValues(
+                                  alpha: .05,
+                                ),
                                 blurRadius: 100,
                                 spreadRadius: 100,
-                                offset: Offset(constraints.maxWidth,constraints.maxHeight/2),
-                              )
-                            ]
-                        ))
+                                offset: Offset(
+                                  constraints.maxWidth,
+                                  constraints.maxHeight / 2,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
                       ],
                     ),
                   );
