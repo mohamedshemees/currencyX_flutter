@@ -3,33 +3,28 @@ import 'package:currencyx/theme/app_colors.dart';
 import 'package:currencyx/theme/custom_colors_extension.dart';
 import 'package:flutter/material.dart';
 
-class CountriesDropdownWidget extends StatefulWidget {
-  const CountriesDropdownWidget({super.key});
+class CountriesDropdownWidget extends StatelessWidget {
+  final void Function(String) onPressed;
+  final String currentCurrency;
 
-  @override
-  State<CountriesDropdownWidget> createState() =>
-      _CountriesDropdownWidgetState();
-}
-
-class _CountriesDropdownWidgetState extends State<CountriesDropdownWidget> {
-  late Country _selectedCountry;
-
-  @override
-  void initState() {
-    super.initState();
-    _selectedCountry = countries.first;
-  }
+  const CountriesDropdownWidget({
+    super.key,
+    required this.onPressed,
+    required this.currentCurrency,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: Theme.of(context).customColors.cardBackgroundColor,
+        color: Theme.of(
+          context,
+        ).extension<CustomColorsExtension>()!.cardBackgroundColor,
         border: Border.all(color: AppColors.spinnerBorderColor, width: .5),
         borderRadius: BorderRadius.circular(10),
       ),
       child: DropdownButton<Country>(
-        value: _selectedCountry,
+        value:countriesMap[currentCurrency] ,
         isExpanded: true,
         itemHeight: null,
         items: countries.map((Country country) {
@@ -57,7 +52,9 @@ class _CountriesDropdownWidgetState extends State<CountriesDropdownWidget> {
                           country.abbreviation,
                           style: TextStyle(
                             fontSize: 16,
-                            color: AppColors.textColor,
+                            color: Theme.of(
+                              context,
+                            ).extension<CustomColorsExtension>()!.textColor,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -67,7 +64,9 @@ class _CountriesDropdownWidgetState extends State<CountriesDropdownWidget> {
                           style: TextStyle(
                             fontSize: 16,
                             overflow: TextOverflow.ellipsis,
-                            color: AppColors.subtleTextColor,
+                            color: Theme.of(
+                              context,
+                            ).extension<CustomColorsExtension>()!.subTextColor,
                           ),
                           maxLines: 1,
                         ),
@@ -78,14 +77,10 @@ class _CountriesDropdownWidgetState extends State<CountriesDropdownWidget> {
               ),
             ),
           );
-        }).toList(),
-        onChanged: (Country? newValue) {
-          if (newValue != null) {
-            setState(() {
-              _selectedCountry = newValue;
-            });
-          }
-        },
+        }).toList(), onChanged: (Country? value) {
+          onPressed(value!.abbreviation);
+      },
+
       ),
     );
   }

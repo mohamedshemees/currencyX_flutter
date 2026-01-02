@@ -40,15 +40,13 @@ class _ApiService implements ApiService {
 
   @override
   Future<Response> getCurrencyExchangeRate({
-    String baseCurrency = "usd",
-    String category = "general",
-    String apiKey = "",
+    String baseCurrency = "USD",
+    String date = "",
   }) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
       r'base_currency': baseCurrency,
-      r'date': category,
-      r'apiKey': apiKey,
+      r'date': date,
     };
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
