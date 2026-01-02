@@ -1,4 +1,3 @@
-import 'package:currencyx/screens/home_screen_cubit.dart';
 import 'package:currencyx/theme/app_colors.dart';
 import 'package:currencyx/theme/custom_colors_extension.dart';
 import 'package:flutter/material.dart';
@@ -38,7 +37,9 @@ class ExchangeRateWidget extends StatelessWidget {
           Text(
             ratio,
             style: TextStyle(
-              color: Theme.of(context).extension<CustomColorsExtension>()!.subTextColor,
+              color: Theme.of(
+                context,
+              ).extension<CustomColorsExtension>()!.subTextColor,
               fontSize: 16,
               fontWeight: FontWeight.w500,
             ),

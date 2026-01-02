@@ -20,7 +20,7 @@ class CountriesDropdownWidget extends StatelessWidget {
         color: Theme.of(
           context,
         ).extension<CustomColorsExtension>()!.cardBackgroundColor,
-        border: Border.all(color: AppColors.spinnerBorderColor, width: 1),
+        border: Border.all(color: AppColors.spinnerBorderColor, width: .5),
         borderRadius: BorderRadius.circular(10),
       ),
       child: DropdownButton<Country>(
