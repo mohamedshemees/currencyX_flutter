@@ -20,11 +20,11 @@ class CountriesDropdownWidget extends StatelessWidget {
         color: Theme.of(
           context,
         ).extension<CustomColorsExtension>()!.cardBackgroundColor,
-        border: Border.all(color: AppColors.spinnerBorderColor, width: .5),
+        border: Border.all(color: AppColors.spinnerBorderColor, width: 1),
         borderRadius: BorderRadius.circular(10),
       ),
       child: DropdownButton<Country>(
-        value:countriesMap[currentCurrency] ,
+        value: countriesMap[currentCurrency],
         isExpanded: true,
         itemHeight: null,
         items: countries.map((Country country) {
@@ -33,7 +33,7 @@ class CountriesDropdownWidget extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Row(
-                children: <Widget>[
+                children: [
                   ClipRRect(
                     borderRadius: BorderRadius.circular(10.0),
                     child: Image.asset(
@@ -77,10 +77,10 @@ class CountriesDropdownWidget extends StatelessWidget {
               ),
             ),
           );
-        }).toList(), onChanged: (Country? value) {
+        }).toList(),
+        onChanged: (Country? value) {
           onPressed(value!.abbreviation);
-      },
-
+        },
       ),
     );
   }

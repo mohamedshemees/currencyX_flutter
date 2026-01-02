@@ -15,7 +15,7 @@ class ConversionViewWidget extends StatelessWidget {
         CurrencyCardWidget(
           currentCurrency: state.baseCurrency,
           enabledTextField: true,
-          title: "From",
+          title: "From    ",
           hint: "Enter Amount",
           onPressed: (String baseCurrency) {
             context.read<HomeScreenCubit>().onChangeBaseCurrency(baseCurrency);
@@ -29,7 +29,7 @@ class ConversionViewWidget extends StatelessWidget {
         CurrencyCardWidget(
           currentCurrency: state.targetCurrency,
           enabledTextField: false,
-          title: "To",
+          title: "To       ",
           hint: "Result",
           onPressed: (String targetCurrency) {
             context.read<HomeScreenCubit>().onChangeTargetCurrency(targetCurrency);

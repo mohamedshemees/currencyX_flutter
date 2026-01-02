@@ -3,6 +3,7 @@ import 'package:currencyx/main.dart';
 import 'package:currencyx/screens/home_screen_cubit.dart';
 import 'package:currencyx/theme/custom_colors_extension.dart';
 import 'package:currencyx/widgets/conversion_view_widget.dart';
+import 'package:currencyx/widgets/exchange_rate_widget.dart';
 import 'package:currencyx/widgets/header_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -16,8 +17,7 @@ class MyHomePage extends StatelessWidget {
       extendBodyBehindAppBar: true,
       body: SafeArea(
         child: BlocProvider(
-          create: (context) =>
-              HomeScreenCubit(getIt<CurrencyRepository>())..getCurrencies(),
+          create: (context) => HomeScreenCubit(getIt<CurrencyRepository>()),
           child: BlocBuilder<HomeScreenCubit, HomeScreenState>(
             builder: (context, state) {
               if (state.isLoading) {
@@ -29,9 +29,9 @@ class MyHomePage extends StatelessWidget {
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
                       colors: [
-                        Theme.of(
-                          context,
-                        ).extension<CustomColorsExtension>()!.gradientStart,
+                        Theme.of(context)
+                            .extension<CustomColorsExtension>()!
+                            .gradientStart,
                         Theme.of(context)
                             .extension<CustomColorsExtension>()!
                             .cardBackgroundColor,
@@ -40,9 +40,22 @@ class MyHomePage extends StatelessWidget {
                       end: Alignment.bottomCenter,
                     ),
                   ),
-                  child: const Column(
+                  child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [HeaderWidget(), ConversionViewWidget()],
+                    children: [
+                      const HeaderWidget(),
+                      const ConversionViewWidget(),
+                      ExchangeRateWidget(
+                        onSelectDate: (selectedDate) {
+                          context
+                              .read<HomeScreenCubit>()
+                              .onSelectDate(selectedDate);
+                        },
+                        firstDate: DateTime(2020),
+                        lastDate: DateTime.now(),
+                        ratio: state.ratio,
+                      ),
+                    ],
                   ),
                 ),
               );

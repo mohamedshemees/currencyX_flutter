@@ -9,6 +9,8 @@ class HomeScreenState {
   final Map<String, Map<String, double>> rates;
   final bool isLoading;
   final String errorMessage;
+  final String date;
+  final String ratio;
 
   const HomeScreenState({
     required this.baseCurrency,
@@ -18,6 +20,8 @@ class HomeScreenState {
     required this.rates,
     required this.isLoading,
     required this.errorMessage,
+    required this.date,
+    required this.ratio,
   });
 
   HomeScreenState copyWith({
@@ -28,6 +32,8 @@ class HomeScreenState {
     Map<String, Map<String, double>>? rates,
     bool? isLoading,
     String? errorMessage,
+    String? date,
+    String? ratio,
   }) {
     return HomeScreenState(
       baseCurrency: baseCurrency ?? this.baseCurrency,
@@ -35,8 +41,10 @@ class HomeScreenState {
       amount: amount ?? this.amount,
       result: result ?? this.result,
       rates: rates ?? this.rates,
+      date: date ?? this.date,
       isLoading: isLoading ?? this.isLoading,
       errorMessage: errorMessage ?? this.errorMessage,
+      ratio: ratio ?? this.ratio,
     );
   }
 }

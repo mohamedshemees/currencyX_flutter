@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:currencyx/domain/CurrencyRepository.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
+
 part 'home_screen_state.dart';
 
 class HomeScreenCubit extends Cubit<HomeScreenState> {
@@ -17,23 +18,24 @@ class HomeScreenCubit extends Cubit<HomeScreenState> {
           isLoading: false,
           errorMessage: "",
           result: '',
+          date: '',
+          ratio: '',
         ),
       ) {
-    //getCurrencies();
-    //calculateResult();
+    getCurrencies();
   }
 
   Future<void> getCurrencies() async {
     try {
-      emit(state);
+      emit(state.copyWith(isLoading: true));
       final data = await _currencyRepository.getCurrencyExchangeRate(
         state.baseCurrency,
-        "",
+        state.date,
       );
       emit(state.copyWith(rates: data.data, isLoading: false));
       calculateResult();
     } catch (e) {
-      print('LOG:' + e.toString());
+      emit(state.copyWith(isLoading: false, errorMessage: e.toString()));
     }
   }
 
@@ -48,9 +50,11 @@ class HomeScreenCubit extends Cubit<HomeScreenState> {
   }
 
   void onChangeAmount(String amount) {
-    double doubleAmount = double.parse(amount);
-    emit(state.copyWith(amount: doubleAmount));
-    calculateResult();
+    double? doubleAmount = double.tryParse(amount);
+    if (doubleAmount != null) {
+      emit(state.copyWith(amount: doubleAmount));
+      calculateResult();
+    }
   }
 
   void onCLickSwap() {
@@ -65,13 +69,29 @@ class HomeScreenCubit extends Cubit<HomeScreenState> {
   }
 
   void calculateResult() {
-    var result = state.amount * state.rates.values.last[state.targetCurrency]!;
-    emit(state.copyWith(result: result.roundToDouble().toString()));
+    if (state.rates.isNotEmpty &&
+        state.rates.values.first.containsKey(state.targetCurrency)) {
+      final rate = state.rates.values.first[state.targetCurrency];
+      if (rate != null) {
+        final result = state.amount * rate;
+        final ratio =
+            "1 ${state.baseCurrency} = ${rate.toStringAsFixed(4)} ${state.targetCurrency}";
+        emit(state.copyWith(result: result.toStringAsFixed(4), ratio: ratio));
+      }
+    }
+  }
+
+  void onSelectDate(DateTime? selectedDate) {
+    if (selectedDate != null) {
+      emit(state.copyWith(date: selectedDate.toString().formatted()));
+      getCurrencies();
+    }
   }
 }
+
 extension DateFormatting on String {
   String formatted() {
     final parsedDate = DateTime.parse(this);
-    return DateFormat('MMM d, yyyy').format(parsedDate.toLocal());
+    return DateFormat('yyyy-MM-dd').format(parsedDate.toLocal());
   }
 }
