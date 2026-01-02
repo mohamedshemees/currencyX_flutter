@@ -19,8 +19,8 @@ class HomeScreenCubit extends Cubit<HomeScreenState> {
           result: '',
         ),
       ) {
-    getCurrencies();
-    calculateResult();
+    //getCurrencies();
+    //calculateResult();
   }
 
   Future<void> getCurrencies() async {

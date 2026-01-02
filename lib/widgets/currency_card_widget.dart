@@ -39,41 +39,103 @@ class CurrencyCardWidget extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
-            children: <Widget>[
+            children: [
               Row(
                 children: [
-                  Text(title),
-                  Expanded(child: CountriesDropdownWidget(
-                    currentCurrency:currentCurrency,
-                    onPressed: onPressed,
-                  )),
+                  Text(
+                    title,
+                    style: TextStyle(
+                      fontFamily: AppFonts.roboto,
+                      fontSize: 28,
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.subtleTextColor,
+                    ),
+                  ),
+                  Expanded(
+                    child: CountriesDropdownWidget(
+                      currentCurrency: currentCurrency,
+                      onPressed: onPressed,
+                    ),
+                  ),
                 ],
               ),
               enabledTextField
                   ? TextField(
-                keyboardType: TextInputType.numberWithOptions(decimal: true),
-                inputFormatters: [
-                  FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d*$')),
-                ],
-                onChanged: ((value)=>{
-                  onChangeValue(value)
-                }),
+                      keyboardType: TextInputType.numberWithOptions(
+                        decimal: true,
+                      ),
+                      inputFormatters: [
+                        FilteringTextInputFormatter.allow(
+                          RegExp(r'^\d*\.?\d*$'),
+                        ),
+                      ],
+                      onChanged: ((value) => {onChangeValue(value)}),
                       enabled: enabledTextField,
                       decoration: InputDecoration(hintText: hint),
                     )
-                  : Text(
-                  result,
-                style: TextStyle(
-                  fontFamily: AppFonts.roboto,
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                  color: AppColors.accentColor,
-                ),
-              ),
+                  : SizedBox(
+                  height: MediaQuery.of(context).size.height *.1 ,
+                  child: AnimatedText(title:"RESULT $result",))
             ],
           ),
         ),
       ),
+    );
+  }
+}
+
+class AnimatedText extends StatefulWidget {
+  final String title;
+  AnimatedText({required this.title});
+  @override
+  State<StatefulWidget> createState() => _AnimatedTextState();
+}
+
+class _AnimatedTextState extends State<AnimatedText>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<Alignment> _alignmentAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      duration: const Duration(seconds: 2),
+      vsync: this,
+    );
+
+    _alignmentAnimation = AlignmentTween(
+      begin: Alignment.topLeft,
+      end: Alignment.bottomLeft,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.linear));
+
+    _controller.repeat(reverse: true);
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedBuilder(
+      animation: _controller,
+      builder: (context, child) {
+        return Align(
+          alignment: _alignmentAnimation.value,
+          child: Text(
+            widget.title,
+            style: TextStyle(
+              fontFamily: AppFonts.roboto,
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+              color: AppColors.accentColor,
+            ),
+          ),
+        );
+      },
     );
   }
 }

@@ -16,161 +16,166 @@ class MyHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BlocProvider(
-        create: (_) => HomeScreenCubit(getIt<CurrencyRepository>()),
-        child: BlocBuilder<HomeScreenCubit, HomeScreenState>(
-          builder: (context, state) {
-            return state.isLoading
-                ? CircularProgressIndicator()
-                : Container(
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: [
-                          Theme.of(
-                            context,
-                          ).extension<CustomColorsExtension>()!.gradientStart,
-                          Theme.of(context)
-                              .extension<CustomColorsExtension>()!
-                              .cardBackgroundColor,
-                        ],
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
-                      ),
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Stack(
-                          alignment: Alignment.topCenter,
+      extendBodyBehindAppBar: true,
+      body: SafeArea(
+        child: BlocProvider(
+          create: (_) => HomeScreenCubit(getIt<CurrencyRepository>()),
+          child: BlocBuilder<HomeScreenCubit, HomeScreenState>(
+            builder: (context, state) {
+              return state.isLoading
+                  ? CircularProgressIndicator()
+                  : SingleChildScrollView(
+                    child: Container(
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: [
+                              Theme.of(
+                                context,
+                              ).extension<CustomColorsExtension>()!.gradientStart,
+                              Theme.of(context)
+                                  .extension<CustomColorsExtension>()!
+                                  .cardBackgroundColor,
+                            ],
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                          ),
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            Column(
+                            Stack(
+                              alignment: Alignment.topCenter,
                               children: [
-                                Text(
-                                  "Currency",
-                                  style: AppTextStyle.heading1,
+                                Column(
+                                  children: [
+                                    Text(
+                                      "Currency",
+                                      style: AppTextStyle.heading1,
+                                    ),
+                                    Text(
+                                      "Exchange",
+                                      style: AppTextStyle.heading1.copyWith(
+                                        color: AppColors.accentColor,
+                                      ),
+                                    ),
+                                    Text(
+                                      "Real-time conversion rates",
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        color: AppColors.subtleTextColor,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                                Text(
-                                  "Exchange",
-                                  style: AppTextStyle.heading1.copyWith(
-                                    color: AppColors.accentColor,
-                                  ),
-                                ),
-                                Text(
-                                  "Real-time conversion rates",
-                                  style: TextStyle(
-                                    fontSize: 8,
-                                    color: AppColors.subtleTextColor,
-                                    fontWeight: FontWeight.bold,
+                                Align(
+                                  alignment: Alignment.topRight,
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      if (Theme.of(context).brightness ==
+                                          Brightness.dark) {
+                                        context.read<ThemeCubit>().updateTheme(
+                                          ThemeMode.light,
+                                        );
+                                      } else {
+                                        context.read<ThemeCubit>().updateTheme(
+                                          ThemeMode.dark,
+                                        );
+                                      }
+                                    },
+                                    child: Container(
+                                      margin: const EdgeInsetsDirectional.only(
+                                        end: 8.0,
+                                        top: 8.0,
+                                      ),
+                                      padding: const EdgeInsetsDirectional.all(8),
+
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        color: Theme.of(context)
+                                            .extension<CustomColorsExtension>()!
+                                            .cardBackgroundColor,
+                                      ),
+                                      child: SvgPicture.asset(
+                                        Theme.of(context)
+                                            .extension<CustomColorsExtension>()!
+                                            .themeIcon,
+                                        width: 40,
+                                        height: 40,
+                                        colorFilter: ColorFilter.mode(
+                                          Theme.of(context)
+                                              .extension<CustomColorsExtension>()!
+                                              .iconColor,
+                                          BlendMode.srcIn,
+                                        ),
+                                      ),
+                                    ),
                                   ),
                                 ),
                               ],
                             ),
-                            Align(
-                              alignment: Alignment.topRight,
+                            CurrencyCardWidget(
+                              currentCurrency: state.baseCurrency,
+                              enabledTextField: true,
+                              title: "From",
+                              hint: "Enter Amount",
+                              onPressed: (String baseCurrency) {
+                                context
+                                    .read<HomeScreenCubit>()
+                                    .onChangeBaseCurrency(baseCurrency);
+                              },
+                              result: '',
+                              onChangeValue: (String p1) {
+                                context.read<HomeScreenCubit>().onChangeAmount(p1);
+                              },
+                            ),
+                            Container(
+                              padding: EdgeInsets.all(12),
+                              decoration: BoxDecoration(
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: AppColors.accentColor,
+                                    blurRadius: 4,
+                                    offset: Offset(0, 0),
+                                  ),
+                                ],
+                                borderRadius: BorderRadius.all(Radius.circular(50)),
+                                color: AppColors.accentColor,
+                              ),
                               child: GestureDetector(
                                 onTap: () {
-                                  if (Theme.of(context).brightness ==
-                                      Brightness.dark) {
-                                    context.read<ThemeCubit>().updateTheme(
-                                      ThemeMode.light,
-                                    );
-                                  } else {
-                                    context.read<ThemeCubit>().updateTheme(
-                                      ThemeMode.dark,
-                                    );
-                                  }
+                                  context.read<HomeScreenCubit>().onCLickSwap();
                                 },
-                                child: Container(
-                                  margin: const EdgeInsetsDirectional.only(
-                                    end: 8.0,
-                                    top: 8.0,
+                                child: SvgPicture.asset(
+                                  "assets/ic_swap.svg",
+                                  colorFilter: ColorFilter.mode(
+                                    AppColors.cardBackgroundColor,
+                                    BlendMode.srcIn,
                                   ),
-                                  padding: const EdgeInsetsDirectional.all(8),
-
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: Theme.of(context)
-                                        .extension<CustomColorsExtension>()!
-                                        .cardBackgroundColor,
-                                  ),
-                                  child: SvgPicture.asset(
-                                    Theme.of(context)
-                                        .extension<CustomColorsExtension>()!
-                                        .themeIcon,
-                                    width: 40,
-                                    height: 40,
-                                    colorFilter: ColorFilter.mode(
-                                      Theme.of(context)
-                                          .extension<CustomColorsExtension>()!
-                                          .iconColor,
-                                      BlendMode.srcIn,
-                                    ),
-                                  ),
+                                  width: 40,
+                                  height: 40,
                                 ),
                               ),
                             ),
+                            CurrencyCardWidget(
+                              currentCurrency: state.targetCurrency,
+                              enabledTextField: false,
+                              title: "To",
+                              hint: "Result",
+                              onPressed: (String targetCurrency) {
+                                context
+                                    .read<HomeScreenCubit>()
+                                    .onChangeTargetCurrency(targetCurrency);
+                              },
+                              onChangeValue: (String amount) {},
+                              result: state.result,
+                            ),
                           ],
                         ),
-                        CurrencyCardWidget(
-                          currentCurrency: state.baseCurrency,
-                          enabledTextField: true,
-                          title: "From",
-                          hint: "Enter Amount",
-                          onPressed: (String baseCurrency) {
-                            context
-                                .read<HomeScreenCubit>()
-                                .onChangeBaseCurrency(baseCurrency);
-                          },
-                          result: '',
-                          onChangeValue: (String p1) {
-                            context.read<HomeScreenCubit>().onChangeAmount(p1);
-                          },
-                        ),
-                        Container(
-                          padding: EdgeInsets.all(12),
-                          decoration: BoxDecoration(
-                            boxShadow: [
-                              BoxShadow(
-                                color: AppColors.accentColor,
-                                blurRadius: 4,
-                                offset: Offset(0, 0),
-                              ),
-                            ],
-                            borderRadius: BorderRadius.all(Radius.circular(50)),
-                            color: AppColors.accentColor,
-                          ),
-                          child: GestureDetector(
-                            onTap: () {
-                              context.read<HomeScreenCubit>().onCLickSwap();
-                            },
-                            child: SvgPicture.asset(
-                              "assets/ic_swap.svg",
-                              colorFilter: ColorFilter.mode(
-                                AppColors.cardBackgroundColor,
-                                BlendMode.srcIn,
-                              ),
-                              width: 40,
-                              height: 40,
-                            ),
-                          ),
-                        ),
-                        CurrencyCardWidget(
-                          currentCurrency: state.targetCurrency,
-                          enabledTextField: false,
-                          title: "To",
-                          hint: "Result",
-                          onPressed: (String targetCurrency) {
-                            context
-                                .read<HomeScreenCubit>()
-                                .onChangeTargetCurrency(targetCurrency);
-                          },
-                          onChangeValue: (String amount) {},
-                          result: state.result,
-                        ),
-                      ],
-                    ),
+                      ),
                   );
-          },
+            },
+          ),
         ),
       ),
     );
