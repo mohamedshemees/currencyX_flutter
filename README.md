@@ -1,16 +1,12 @@
-# currencyx
+# CurrencyX
 
-currency real time echange rate provider
+Flutter app providing real-time currency exchange rates using:
+- Dio
+- Retrofit
+- Cubit
+- SharedPreferences
 
-## Getting Started
+Clean architecture setup (Domain-Data-Presentation)
 
-This project is a starting point for a Flutter application.
+https://github.com/user-attachments/assets/af55651d-0269-481f-80e1-664f010600fd
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
